@@ -727,9 +727,8 @@ Technologies that made STOFOX possible:
 
 **Questions? Feedback?**
 
-📧 Email: hello@stofox.dev  
-🐦 Twitter: @stofoxapp  
-💬 Discord: [STOFOX Community]
+📧 Email: ufuk@devfox.net
+
 
 **Happy Storing! 🦊**
 
