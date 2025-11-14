@@ -1,3 +1,6 @@
+
+Direct Download link: https://devfox.net/stofox
+
 # STOFOX: The Missing Desktop Client for Cloudflare R2 🦊
 
 ## Why Every Developer Needs a Native R2 Client in Their Toolkit
