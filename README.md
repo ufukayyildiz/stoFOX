@@ -1,5 +1,5 @@
 
-To Download go releases folder https://github.com/ufukayyildiz/stoFOX/tree/main/releases
+To Download go releases [folder https://github.com/ufukayyildiz/stoFOX/tree/main/releases](https://github.com/ufukayyildiz/stoFOX/releases/tag/V1.0.22)
 
 # stoFOX: The Missing Desktop Client for Cloudflare R2 🦊
 
