@@ -1,5 +1,5 @@
 
-Direct Download link: https://devfox.net/stofox
+To Download go releases folder https://github.com/ufukayyildiz/stoFOX/tree/main/releases
 
 # stoFOX: The Missing Desktop Client for Cloudflare R2 🦊
 
