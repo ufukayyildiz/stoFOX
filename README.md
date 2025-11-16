@@ -4,7 +4,7 @@
 
 stoFOX is a modern desktop application that lets you **easily manage** cloud storage services like Amazon S3 and Cloudflare R2. Instead of struggling with complex web interfaces, manage your cloud files just like files on your computer!
 
-![stoFOX Main Screen](docs/images/main-screen.png)
+![stoFOX Main Screen](images/main-screen.png)
 
 ---
 
