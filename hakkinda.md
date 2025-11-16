@@ -1,738 +1,301 @@
-# STOFOX: Cloudflare R2 için Geliştiricilerin Yeni Gözdesi 🦊
+# 🦊 stoFOX - Bulut Depolamanız Artık Cebinizde!
 
-## Neden Her Geliştiricinin Araç Kutusunda Cloudflare R2 İstemcisi Olmalı?
+**Dosyalarınızı bulutta saklayın, istediğiniz yerden erişin!**
 
-2025'te bulut depolama artık lüks değil, zorunluluk. Ancak doğru aracı bulmak? İşte asıl zorluk orada. AWS S3'ün yüksek maliyetlerinden sıkıldıysanız ve Cloudflare R2'nin uygun fiyatlı depolamasına geçiş yapmak istiyorsanız, bir sorunla karşılaşırsınız: **R2'nin resmi bir masaüstü istemcisi yok**.
+stoFOX, Amazon S3 ve Cloudflare R2 gibi bulut depolama hizmetlerini **kolayca yönetmenizi** sağlayan modern bir masaüstü programıdır. Karmaşık web arayüzleriyle uğraşmak yerine, bilgisayarınızdaki dosyalarla çalışır gibi bulut dosyalarınızı yönetin!
 
-Terminal komutlarıyla uğraşmak mı? Rclone config dosyalarını düzenlemek mi? Her seferinde AWS CLI syntax'ını mı hatırlamaya çalışıyorsunuz? Bunların hepsi yorucu.
-
-İşte bu yüzden **STOFOX**'u yarattık.
+![stoFOX Ana Ekran](docs/images/main-screen.png)
 
 ---
 
-## 📦 STOFOX Nedir?
+## 🌟 Neden stoFOX?
 
-**STOFOX**, Cloudflare R2 object storage için özel olarak tasarlanmış, modern ve kullanıcı dostu bir masaüstü uygulamasıdır. Java ile yazılmış, macOS için PKG installer ile dağıtılan ve gömülü JRE sayesinde hiçbir kurulum gerektirmeyen bir çözüm.
+### 💰 Paranızı Kurtarın
+Amazon S3 ve Cloudflare R2, dosyalarınızı bulutta saklamak için **çok ucuz** alternatifler sunar. stoFOX ile bu hizmetleri kolayca kullanarak:
+- Google Drive'dan **10 kat daha ucuz** depolama
+- Dropbox'tan **20 kat daha ucuz** dosya paylaşımı
+- Aylık sadece birkaç lira ile **sınırsız** depolama
 
-### Temel Özellikler:
+### 🚀 Hızlı ve Kolay
+- **Sürükle-bırak** ile dosya yükleme
+- Tüm hesaplarınızı **tek yerden** yönetin
+- Klasör yapınızı **olduğu gibi** yükleyin
+- **Saniyeler** içinde dosya arama
 
-✅ **Sıfır Bağımlılık**: Embedded JRE ile tek tıkla kurulum  
-✅ **Explorer-Style Arayüz**: Windows Explorer veya macOS Finder gibi tanıdık deneyim  
-✅ **Hızlı Dosya İşlemleri**: Upload, download, delete, preview - hepsi birkaç tıkla  
-✅ **Folder Upload**: Klasör hiyerarşilerini koruyarak toplu yükleme  
-✅ **Auto-Update**: Yeni sürümler otomatik olarak kontrol edilir ve kurulur  
-✅ **Analytics**: Mixpanel entegrasyonu ile kullanım metrikleri ve hata takibi  
-✅ **Modern UI**: FlatLaf IntelliJ teması ile profesyonel görünüm
-
----
-
-## 🎯 Problem: R2'nin Eksik Halkası
-
-Cloudflare R2, AWS S3'e harika bir alternatif sunuyor:
-- **Zero egress fees** (çıkış ücreti yok!)
-- **S3-compatible API** (mevcut araçlarla çalışır)
-- **Küresel dağıtım** (Cloudflare'in edge network'ü)
-
-Ancak bir sorunu var: **Kullanıcı dostu bir masaüstü arayüzü yok**.
-
-### Mevcut Çözümler ve Sorunları:
-
-**1. Cloudflare Dashboard**
-- ❌ Web tabanlı (yavaş, sınırlı)
-- ❌ Toplu işlemler zor
-- ❌ Klasör yükleme desteği yok
-
-**2. AWS CLI / Rclone**
-- ❌ Terminal bilgisi gerekiyor
-- ❌ Karmaşık config dosyaları
-- ❌ Hata ayıklama zor
-
-**3. Cyberduck / CloudBerry**
-- ❌ R2'ye özel optimize edilmemiş
-- ❌ Gereksiz S3 özellikleri
-- ❌ Ücretli sürümler
-
-### STOFOX'un Çözümü:
-
-✅ **Native Desktop App**: macOS için optimize edilmiş  
-✅ **R2-First Design**: Sadece ihtiyacınız olan özellikler  
-✅ **Açık Kaynak**: Topluluk katkılarına açık  
-✅ **Ücretsiz**: Sıfır maliyet, sıfır reklam
+### 🔒 Güvenli ve Profesyonel
+- Dosyalarınız büyük şirketlerin (Amazon, Cloudflare) **güvenli sunucularında**
+- **Kazara silmeye** karşı 3 adımlı koruma
+- Birden fazla hesap desteği ile **iş ve özel** dosyalarınızı ayırın
 
 ---
 
-## 🏗️ Mimari: Nasıl Çalışıyor?
+## 📸 Ekran Görüntüleri
 
-STOFOX, modern yazılım geliştirme prensipleriyle inşa edilmiş:
+### Ana Ekran - Dosyalarınızı Görün
+![Dosya Listesi](docs/images/file-list.png)
+*Tüm dosyalarınız tek tıkla önünüzde - boyut, tarih ve klasör bilgileriyle*
 
-### 1. **Tech Stack**
+### Akıllı Arama - Her Şeyi Bulun
+![Arama Özelliği](docs/images/search.png)
+*Dosya adıyla veya içeriğiyle arayın - PDF'lerin içini bile tarar!*
 
-```
-┌─────────────────────────────────────┐
-│     Java 17 (Temurin JRE)          │
-├─────────────────────────────────────┤
-│  AWS SDK for Java 2.20.0 (S3 API) │
-├─────────────────────────────────────┤
-│    FlatLaf UI Framework 3.5.2      │
-├─────────────────────────────────────┤
-│     Mixpanel Analytics 1.5.3       │
-└─────────────────────────────────────┘
-```
+### Çoklu Hesap Yönetimi
+![Hesap Yönetimi](docs/images/accounts.png)
+*İş, kişisel, proje - tüm hesaplarınızı tek programda yönetin*
 
-**Neden Java?**
-- ✅ Cross-platform uyumluluk
-- ✅ Olgun S3 SDK ekosistemi
-- ✅ Memory-safe ve güvenli
-- ✅ JRE embedding desteği (jpackage)
-
-**Neden AWS SDK?**
-- ✅ R2'nin S3-compatible API'si
-- ✅ Battle-tested kod tabanı
-- ✅ Async/sync operasyon desteği
-- ✅ Otomatik retry mekanizması
-
-### 2. **UI/UX Felsefesi**
-
-STOFOX'un arayüzü **"tanıdık ama modern"** prensibiyle tasarlandı:
-
-**Hierarchical Navigation:**
-```
-My Bucket / photos / 2025 / january / 
-[← Clickable breadcrumbs ile kolay navigasyon]
-```
-
-**Dual-Pane Layout:**
-```
-┌─────────────┬───────────────────────────┐
-│  SIDEBAR    │    MAIN PANEL             │
-│             │                           │
-│ • Settings  │  ┌─────────────────────┐  │
-│ • Refresh   │  │ Name       │  Size  │  │
-│ • Check     │  ├─────────────────────┤  │
-│   Updates   │  │ 📁 backups │ -      │  │
-│ • About     │  │ 📄 data.json│ 2.4KB │  │
-│             │  └─────────────────────┘  │
-│ BUCKETS:    │                           │
-│ • cdn0      │  [Upload] [Download] [...] │
-│ • food360   │                           │
-│ • library   │                           │
-│             │                           │
-│ v1.0.21     │                           │
-└─────────────┴───────────────────────────┘
-```
-
-**Context Menus:**
-- Right-click → Download / Delete / View
-- Multi-select support (Cmd+A on macOS)
-- Keyboard shortcuts
-
-### 3. **Core Operations**
-
-**Upload Flow:**
-```java
-1. User selects file/folder
-2. Background thread starts
-3. Progress dialog shows:
-   - Overall: [████████░░] 80% (400MB / 500MB)
-   - Files: 8 / 10 uploaded
-4. S3 SDK uploads to R2
-5. Table refreshes automatically
-```
-
-**Folder Upload:**
-```java
-1. Scan directory tree (with symlink protection)
-2. Preserve folder structure
-3. Upload files with proper S3 keys:
-   - /folder/subfolder/file.txt
-4. Progress tracking per file
-```
-
-**Auto-Update System:**
-```java
-1. Check R2 bucket for latest.json
-2. Compare versions (semver)
-3. If newer:
-   - PKG mode: Download installer to ~/Downloads
-   - JAR mode: Replace JAR, restart app
-4. Show progress with byte tracking
-```
+### Dosya Önizleme
+![Dosya Önizleme](docs/images/preview.png)
+*Resimler, PDF'ler, metin dosyaları - indirmeden önizleyin*
 
 ---
 
-## 🚀 Özellikler: Detaylı İnceleme
+## ✨ Özellikler
 
-### 1. **Bucket Management**
+### 🔍 Güçlü Arama
+- **Dosya adıyla arama**: Fotoğrafımı nereye koymuştum? Hemen bulun!
+- **İçerik arama**: PDF ve metin dosyalarının içinde kelime arayın
+- **Filtreli arama**: Sadece resimler, sadece PDF'ler, istediğiniz gibi filtreleyin
+- **Tüm hesaplarda ara**: Hangi hesapta olduğunu unutsanız bile bulun!
 
-**Otomatik Bucket Discovery:**
-```java
-// R2 credentials ile bağlan
-R2Config config = R2Config.loadFromFile();
-S3Client client = S3Client.builder()
-    .endpointOverride(config.getEndpoint())
-    .region(Region.of("auto"))
-    .credentialsProvider(...)
-    .build();
+### 📁 Klasör Yönetimi
+- **Klasör yükleme**: Tüm klasörünüzü olduğu gibi yükleyin
+- **Alt klasörlerle arama**: Klasörler içinde gezinin
+- **Klasör istatistikleri**: Kaç dosya, toplam boyut - hepsini görün
+- **Toplu silme**: Tüm klasörü tek seferde silin (3 adımlı onay ile!)
 
-// Tüm bucket'ları listele
-ListBucketsResponse response = client.listBuckets();
-```
+### 🎨 Dosya Önizleme
+- **Resimler**: JPG, PNG, GIF - hepsini programda görüntüleyin
+- **PDF'ler**: Sayfa sayfa gezinin, zoom yapın
+- **Metin dosyaları**: TXT, JSON, kod dosyaları - okuyun, kontrol edin
 
-**Sidebar Navigation:**
-- Bucket listesi otomatik güncellenir
-- Bucket seçimi → içerik yüklenir
-- Hızlı bucket değiştirme
+### 🛡️ Güvenlik
+- **3 adımlı silme**: Kazara silmeye karşı koruma
+  1. "Emin misiniz?" sorusu
+  2. 3 saniyelik geri sayım (iptal edebilirsiniz!)
+  3. Final onay - artık gerçekten siliniyor
+- **Dosya şifreleme**: Dosyalarınız güvenli sunucularda
 
-### 2. **Object Operations**
+### ⚡ Performans
+- **Sınırsız dosya**: 1000'lerce, 10.000'lerce dosya sorunsuz
+- **Hızlı yükleme**: Büyük dosyaları ilerleme çubuğuyla takip edin
+- **Çoklu indirme**: Birden fazla dosyayı aynı anda indirin
+- **İptal edilebilir işlemler**: Yanlışlıkla başlattınız? İptal edin!
 
-**Upload:**
-```java
-// Tek dosya
-PutObjectRequest request = PutObjectRequest.builder()
-    .bucket(bucketName)
-    .key(objectKey)
-    .contentType(detectMimeType(file))
-    .build();
-
-// Progress tracking
-RequestBody body = RequestBody.fromFile(file);
-client.putObject(request, body);
-```
-
-**Download:**
-```java
-// Multi-file download
-for (S3Object obj : selectedObjects) {
-    GetObjectRequest request = GetObjectRequest.builder()
-        .bucket(bucketName)
-        .key(obj.key())
-        .build();
-    
-    client.getObject(request, 
-        ResponseTransformer.toFile(localPath));
-}
-```
-
-**Delete:**
-```java
-// 2-step confirmation
-1. Show dialog: "Delete 5 files?"
-2. Red button: "Confirm Delete"
-3. Background deletion with retry
-```
-
-### 3. **File Preview**
-
-**Supported Types:**
-
-**Images:**
-- JPG, PNG, GIF, WebP
-- In-app preview with scaling
-- Full-screen mode
-
-**Text:**
-- TXT, JSON, XML, MD
-- Syntax highlighting (future)
-- UTF-8 support
-
-**PDF:**
-- Apache PDFBox integration
-- First page preview
-- File info (pages, size)
-
-**Code:**
-```java
-// Preview window
-JDialog previewDialog = new JDialog();
-JTextArea textArea = new JTextArea(content);
-textArea.setEditable(false);
-textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-```
-
-### 4. **Progress Tracking**
-
-**Dual Progress Bar System:**
-
-```
-┌────────────────────────────────────┐
-│  Uploading Files...                │
-├────────────────────────────────────┤
-│                                    │
-│  Overall Progress:                 │
-│  [████████████████░░] 80%          │
-│  400 MB / 500 MB                   │
-│                                    │
-│  Files: 8 / 10 uploaded            │
-│                                    │
-│  Current: large-video.mp4          │
-│  [████████████░░░░░░] 60%          │
-│                                    │
-│            [Cancel]                │
-└────────────────────────────────────┘
-```
-
-**Technical Implementation:**
-```java
-// Byte-based progress
-long totalBytes = files.stream()
-    .mapToLong(File::length)
-    .sum();
-
-long uploadedBytes = 0;
-for (File file : files) {
-    // Upload with progress callback
-    uploadedBytes += file.length();
-    int percent = (int)((uploadedBytes * 100) / totalBytes);
-    progressBar.setValue(percent);
-}
-```
-
-### 5. **Auto-Update System**
-
-**Version Check:**
-```java
-// latest.json on R2
-{
-  "version": "1.0.22",
-  "downloadUrl": "https://r2.../STOFOX-1.0.22.pkg",
-  "releaseNotes": "Bug fixes and improvements"
-}
-
-// Comparison
-if (isNewerVersion("1.0.22", currentVersion)) {
-    showUpdateDialog();
-}
-```
-
-**PKG Mode (macOS):**
-```java
-1. Download PKG to ~/Downloads
-2. Show notification
-3. Open Finder to Downloads folder
-4. User double-clicks installer
-5. macOS handles installation
-```
-
-**JAR Mode (Development):**
-```java
-1. Download new JAR
-2. Replace current JAR
-3. Restart application
-4. Continue seamlessly
-```
-
-### 6. **Analytics & Error Tracking**
-
-**Mixpanel Integration:**
-```java
-// App launch
-trackEvent("App Launched", {
-    "$os": "Mac OS X",
-    "$app_version": "1.0.21",
-    "os_version": "14.3",
-    "os_arch": "aarch64",
-    "java_version": "17.0.9"
-});
-
-// Geolocation (automatic via IP)
-// Country: Turkey
-// City: Istanbul
-```
-
-**Error Tracking:**
-```java
-// Uncaught exception handler
-Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
-    trackEvent("App Error", {
-        "error_message": e.getMessage(),
-        "error_type": e.getClass().getName(),
-        "$os": System.getProperty("os.name"),
-        "$app_version": getCurrentVersion()
-    });
-});
-```
-
-**Benefits:**
-- ✅ Crash reporting
-- ✅ User behavior insights
-- ✅ Performance metrics
-- ✅ Geographic distribution
+### 🌍 Çoklu Hesap
+- **Sınırsız hesap**: İstediğiniz kadar hesap ekleyin
+- **Hızlı geçiş**: Hesaplar arası tek tıkla geçiş
+- **Amazon S3**: Dünyanın en popüler bulut depolama
+- **Cloudflare R2**: S3'ten %90 daha ucuz alternatif!
 
 ---
 
-## 📊 Performance & Optimization
+## 💾 İndirme ve Kurulum
 
-### 1. **Memory Management**
+### Windows Kullanıcıları
+1. [En Son Sürümü İndirin](../../releases/latest) - `stoFOX-Setup.msi` dosyasını indirin
+2. İndirilen dosyayı çift tıklayın
+3. Kurulum sihirbazını takip edin
+4. **Hepsi bu!** Java kurmanıza gerek yok!
 
-**Efficient File Handling:**
-```java
-// Streaming upload (large files)
-RequestBody.fromInputStream(
-    new BufferedInputStream(new FileInputStream(file)),
-    file.length()
-);
+### macOS Kullanıcıları (Intel ve M1/M2/M3)
+1. [En Son Sürümü İndirin](../../releases/latest) - `stoFOX.pkg` dosyasını indirin
+2. İndirilen dosyayı çift tıklayın
+3. Kurulum sihirbazını takip edin
+4. **Hepsi bu!** Java kurmanıza gerek yok!
 
-// No full file load in memory
-```
-
-**UI Threading:**
-```java
-// Background operations
-SwingWorker<Result, Progress> worker = new SwingWorker<>() {
-    @Override
-    protected Result doInBackground() {
-        // Heavy S3 operations
-        return uploadFiles();
-    }
-    
-    @Override
-    protected void done() {
-        // Update UI on EDT
-        refreshTable();
-    }
-};
-```
-
-### 2. **Network Optimization**
-
-**AWS SDK Best Practices:**
-```java
-S3Client client = S3Client.builder()
-    .region(Region.of("auto"))
-    .endpointOverride(r2Endpoint)
-    .credentialsProvider(StaticCredentialsProvider.create(
-        AwsBasicCredentials.create(accessKey, secretKey)
-    ))
-    .httpClientBuilder(NettyNioAsyncHttpClient.builder()
-        .maxConcurrency(50)
-        .connectionTimeout(Duration.ofSeconds(30))
-    )
-    .build();
-```
-
-**Retry Logic:**
-```java
-RetryPolicy retryPolicy = RetryPolicy.builder()
-    .numRetries(3)
-    .backoffStrategy(BackoffStrategy.exponentialDelay())
-    .build();
-```
-
-### 3. **Caching**
-
-**Object List Caching:**
-```java
-// Cache bucket contents
-Map<String, List<S3Object>> bucketCache = new HashMap<>();
-
-// Invalidate on:
-// - Manual refresh
-// - After upload/delete
-// - Auto-refresh timer
-```
+### Linux Kullanıcıları
+1. [En Son Sürümü İndirin](../../releases/latest) - `stoFOX.jar` dosyasını indirin
+2. Java 17 kurulu olduğundan emin olun
+3. Terminal'de: `java -jar stoFOX.jar`
 
 ---
 
-## 🔐 Güvenlik
+## 🚀 Hızlı Başlangıç
 
-### 1. **Credential Management**
+### 1. Programı Açın
+Kurulumdan sonra stoFOX'u masaüstünüzden veya Başlat Menüsü'nden açın.
 
-**Secure Storage:**
-```java
-// Config file: r2client-config.json
-{
-    "accountId": "abc123",
-    "accessKeyId": "R2_ACCESS_KEY",
-    "secretAccessKey": "R2_SECRET_KEY",
-    "selectedBucket": "my-bucket"
-}
+### 2. Hesap Ekleyin
+- Sol menüden **"Settings"** (Ayarlar) butonuna tıklayın
+- **"Add Account"** (Hesap Ekle) butonuna tıklayın
+- Hesap bilgilerinizi girin:
+  - **Hesap adı**: Örn: "İş Hesabım", "Kişisel Fotoğraflar"
+  - **Sağlayıcı**: Amazon S3 veya Cloudflare R2
+  - **Erişim bilgileri**: Bulut hizmetinizden aldığınız bilgiler
 
-// Permissions: 600 (read/write owner only)
-```
+![Hesap Ekleme](docs/images/add-account.png)
 
-**Best Practices:**
-- ✅ No hardcoded credentials
-- ✅ Platform-specific storage paths
-- ✅ No logging of secrets
-- ✅ Secure transmission (HTTPS)
+### 3. Dosya Yükleme
+1. Sol taraftan bir **bucket** (depo) seçin
+2. **"Upload"** butonuna tıklayın
+3. Dosyanızı seçin veya **sürükle-bırak** yapın
+4. Yükleme otomatik başlar!
 
-### 2. **Error Handling**
-
-**Graceful Degradation:**
-```java
-try {
-    uploadFile(file);
-} catch (S3Exception e) {
-    if (e.statusCode() == 403) {
-        showError("Access denied. Check credentials.");
-    } else if (e.statusCode() == 404) {
-        showError("Bucket not found.");
-    } else {
-        showError("Upload failed: " + e.getMessage());
-    }
-}
-```
-
-### 3. **Input Validation**
-
-**Sanitization:**
-```java
-// Bucket name validation
-Pattern bucketPattern = Pattern.compile("^[a-z0-9][a-z0-9-]*[a-z0-9]$");
-
-// Object key validation
-String sanitizedKey = key.replaceAll("[^a-zA-Z0-9/_.-]", "_");
-```
+### 4. Dosya Arama
+1. Sol menüden **"Search"** (Ara) butonuna tıklayın
+2. Aramak istediğiniz kelimeyi yazın
+3. İstediğiniz filtreleri seçin:
+   - Tüm hesaplarda mı aransın?
+   - Sadece PDF'ler mi?
+   - Dosya içeriğinde mi aransın?
+4. **"Search"** butonuna tıklayın
+5. Sonuçları görüntüleyin, indirin veya silin!
 
 ---
 
-## 🎨 UI/UX Design Decisions
+## 💡 Kullanım Senaryoları
 
-### 1. **Theme: FlatLaf IntelliJ**
+### 📷 Fotoğrafçılar İçin
+"Düğün fotoğraflarım 100 GB - Google Drive'a sığmıyor!"
+→ Cloudflare R2 ile ayda **sadece 2-3 lira** ödersiniz!
 
-**Why FlatLaf?**
-- ✅ Modern, flat design
-- ✅ Cross-platform consistency
-- ✅ Dark/Light mode support (future)
-- ✅ Native-like performance
+### 🎬 Video Editörleri İçin
+"Eski proje dosyalarım bilgisayarımı dolduruyor!"
+→ stoFOX ile S3'e yükleyin, arşivleyin, lazım olunca geri alın!
 
-**Color Palette:**
-```java
-SIDEBAR_COLOR = new Color(55, 58, 81);     // Dark blue-gray
-BG_COLOR = new Color(245, 245, 247);       // Light gray
-PRIMARY_COLOR = new Color(0, 122, 255);    // Blue
-DELETE_COLOR = new Color(255, 59, 48);     // Red
-```
+### 📁 Ofis Çalışanları İçin
+"İş dosyalarım evde, ev dosyalarım işte - karmaşa!"
+→ İki ayrı hesap açın, stoFOX'ta ikisini birden yönetin!
 
-### 2. **Icons & Visuals**
-
-**Custom STOFOX Logo:**
-- 🦊 Fox mascot (stofox-logo.png)
-- Friendly and memorable
-- Used in:
-  - App icon (stofox.icns)
-  - MainWindow title bar
-  - PKG installer
-
-**File Type Icons:**
-```
-📁 Folders
-📄 Documents
-🖼️ Images
-📦 Archives
-🎵 Audio
-🎬 Video
-```
-
-### 3. **Accessibility**
-
-**Keyboard Shortcuts:**
-- Cmd+A: Select all
-- Cmd+R: Refresh
-- Delete: Delete selected
-- Enter: Open/Download
-
-**Screen Reader Support:**
-```java
-// Accessible labels
-button.setAccessibleContext().setAccessibleName("Upload File");
-table.setAccessibleContext().setAccessibleDescription("Object list");
-```
+### 🎓 Öğrenciler İçin
+"Tez dosyalarım, projelerim, ödevlerim - hepsini yedeklemek istiyorum!"
+→ S3'te güvenle saklayın, ömür boyu erişin!
 
 ---
 
-## 🚢 Deployment: GitHub Actions CI/CD
+## 🔧 Amazon S3 ve Cloudflare R2 Nedir?
 
-### Automated Release Pipeline:
+### Amazon S3 (Simple Storage Service)
+Amazon'un bulut depolama hizmeti. Dünyanın en güvenilir ve yaygın kullanılan depolama sistemi.
 
-```yaml
-name: Build and Deploy macOS PKG
+**Fiyat Örneği:**
+- 1 TB depolama: ~23$/ay (~780 TL/ay)
+- İlk 5 TB indirme: Ücretsiz
+- Sonrası: 0.09$/GB
 
-on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version (e.g., 1.0.22)'
-        required: true
+**Kimler Kullanıyor?**
+Netflix, Airbnb, NASA, hatta Türkiye'deki pek çok büyük şirket!
 
-jobs:
-  build-and-deploy:
-    runs-on: macos-latest
-    steps:
-      - Extract version
-      - Update pom.xml & UpdateChecker.java
-      - Build with Maven
-      - Create macOS icon (iconutil)
-      - jpackage → STOFOX-{version}.pkg
-      - Upload to R2
-      - Create GitHub Release
-```
+### Cloudflare R2
+S3 ile tam uyumlu ama **çok daha ucuz** alternatif!
 
-**Benefits:**
-- ✅ One-click releases
-- ✅ Version sync automation
-- ✅ Consistent builds
-- ✅ Automatic R2 deployment
+**Fiyat Örneği:**
+- 1 TB depolama: ~15$/ay (~500 TL/ay)
+- **İndirme ücreti: SIFIR!** 🎉
+- 10 milyon dosya işlemi/ay: Ücretsiz
 
----
+**Neden Daha Ucuz?**
+Cloudflare, indirme ücreti almıyor - sadece depolama ücretlendiriliyor!
 
-## 📈 Roadmap: Gelecek Planları
+### Karşılaştırma
 
-### v1.1 (Q1 2025)
-- [ ] Windows PKG support
-- [ ] Linux AppImage
-- [ ] Dark mode toggle
-- [ ] Multi-bucket operations
-
-### v1.2 (Q2 2025)
-- [ ] Drag & drop upload
-- [ ] File search & filtering
-- [ ] Shareable public links
-- [ ] Bandwidth throttling
-
-### v1.3 (Q3 2025)
-- [ ] Encryption at rest
-- [ ] Custom metadata editor
-- [ ] Lifecycle policies UI
-- [ ] Team sharing features
-
-### v2.0 (Q4 2025)
-- [ ] Cloud sync (like Dropbox)
-- [ ] Mobile companion app
-- [ ] CLI tool
-- [ ] API documentation
+| Özellik | Google Drive | Dropbox | S3 (1TB) | R2 (1TB) |
+|---------|--------------|---------|----------|----------|
+| Aylık Ücret | 260 TL | 330 TL | 780 TL | 500 TL |
+| Depolama Limiti | 2 TB | 2 TB | Sınırsız | Sınırsız |
+| İndirme Ücreti | - | - | Var | YOK! |
+| API Erişimi | Sınırlı | Sınırlı | Tam | Tam |
+| stoFOX Desteği | ❌ | ❌ | ✅ | ✅ |
 
 ---
 
-## 💡 Use Cases
+## 🎯 Sık Sorulan Sorular
 
-### 1. **Static Website Hosting**
-```
-Upload HTML/CSS/JS → R2 bucket → Cloudflare CDN → Global users
-```
+### ❓ "Bulut depolama güvenli mi?"
+**Evet!** Amazon ve Cloudflare, dünyanın en büyük teknoloji şirketleri. Dosyalarınız:
+- Şifreli olarak saklanıyor
+- Birden fazla yerde yedekleniyor
+- Sadece siz erişebiliyorsunuz
 
-### 2. **Media Library**
-```
-Upload photos/videos → Preview in STOFOX → Share via R2 URLs
-```
+### ❓ "Kurulum zor mu?"
+**Hayır!** Tek tıkla kurulum - Java bile kurmanıza gerek yok!
 
-### 3. **Backup Solution**
-```
-Daily backups → Folder upload → Version control → Disaster recovery
-```
+### ❓ "Ücretli mi?"
+stoFOX **tamamen ücretsiz**! Sadece kullandığınız bulut depolama (S3 veya R2) için ücret ödersiniz - ki bu da çok ucuz!
 
-### 4. **Asset Delivery**
-```
-Game assets → R2 storage → Low latency downloads → Happy players
-```
+### ❓ "Dosyalarım kaybolur mu?"
+**Hayır!** Amazon ve Cloudflare, %99.999999999 (11 adet 9!) veri dayanıklılığı garantisi veriyor. Yani dosyalarınız neredeyse kaybolması imkansız!
 
----
+### ❓ "İnternet olmadan kullanabilir miyim?"
+Dosyaları görüntülemek ve indirmek için internet gerekir. Ama offline çalışmak için dosyalarınızı bilgisayarınıza indirebilirsiniz.
 
-## 🤝 Katkıda Bulunun
+### ❓ "Kaç hesap ekleyebilirim?"
+**Sınırsız!** İş, ev, arşiv - istediğiniz kadar hesap ekleyin, stoFOX hepsini yönetsin!
 
-STOFOX açık kaynak bir proje! Katkılarınızı bekliyoruz:
-
-**GitHub:** [github.com/yourusername/stofox]
-
-**Katkı Alanları:**
-- 🐛 Bug reports
-- 💡 Feature requests
-- 🔧 Pull requests
-- 📖 Documentation
-- 🌍 Translations
+### ❓ "Dosya boyutu limiti var mı?"
+stoFOX'un kendisinde yok - ancak S3 ve R2'nin limitleri var:
+- Tek dosya: 5 TB'a kadar (!)
+- Toplam depolama: Sınırsız
 
 ---
 
-## 🎓 Öğrendiklerimiz
+## 🛠️ Destek ve Yardım
 
-STOFOX'u geliştirirken öğrendiğimiz dersler:
+### 📧 İletişim
+Sorun mu yaşıyorsunuz? Öneri mi var?
+- [Issue Açın](../../issues) - GitHub üzerinden destek alın
+- [DevFox](https://devfox.net) - Geliştirici web sitesi
 
-**1. Modern Java != Eski Java**
-- Swing hala güçlü (FlatLaf ile)
-- JRE embedding harika (jpackage)
-- AWS SDK v2 çok temiz
-
-**2. UX > Features**
-- Kullanıcı dostu arayüz her şeyi yener
-- Progress bars güven verir
-- Error messages açık olmalı
-
-**3. Automation Kazandırır**
-- GitHub Actions zamandan tasarruf
-- Auto-update kullanıcı memnuniyeti artırır
-- Analytics gelişimi hızlandırır
-
-**4. R2 is Underrated**
-- S3'ten daha ucuz
-- S3-compatible (kolay migrasyon)
-- Cloudflare network = hızlı
+### 📚 Yardım Kaynakları
+- [Amazon S3 Hesap Açma](https://aws.amazon.com/s3/)
+- [Cloudflare R2 Hesap Açma](https://www.cloudflare.com/products/r2/)
+- [Video Eğitimler](#) - Yakında!
 
 ---
 
-## 🏁 Sonuç
+## 🎁 Bonus Özellikler
 
-**STOFOX**, Cloudflare R2 ekosisteminde eksik olan parçayı tamamlıyor: **kullanıcı dostu bir masaüstü istemcisi**.
+### 🔄 Otomatik Güncelleme
+Program her açıldığında yeni versiyon kontrolü yapar. Yeni özellikler çıktığında:
+- Windows/macOS: Otomatik güncelleme önerisi
+- Tek tıkla güncelleme
+- Hiçbir ayarınız kaybolmaz!
 
-Eğer:
-- ✅ AWS S3 maliyetlerinden kaçıyorsanız
-- ✅ Terminal komutlarından sıkıldıysanız
-- ✅ Modern bir UI istiyorsanız
-- ✅ Ücretsiz ve açık kaynak seviyorsanız
+### 🎨 Modern Tasarım
+- Göz yormayan aydınlık tema
+- Büyük, okunaklı yazılar
+- Renkli ikonlar ve görseller
+- Hızlı erişim menüleri
 
-**STOFOX tam size göre!**
-
----
-
-## 📥 Hemen Başlayın
-
-**macOS Kullanıcıları:**
-```bash
-# Download latest PKG
-curl -O https://r2client.brixyazilim.com/STOFOX-latest.pkg
-
-# Install
-open STOFOX-latest.pkg
-
-# Launch
-/Applications/STOFOX.app
-```
-
-**Developer'lar:**
-```bash
-# Clone repo
-git clone https://github.com/yourusername/stofox
-cd stofox
-
-# Build
-mvn clean package
-
-# Run
-java -jar target/STOFOX.jar
-```
+### ⌨️ Klavye Kısayolları
+- **Ctrl/Cmd + U**: Hızlı yükleme
+- **Ctrl/Cmd + F**: Arama aç
+- **Delete**: Seçili dosyayı sil
+- **Enter**: Dosyayı aç/önizle
 
 ---
 
-## 🙏 Teşekkürler
+## 🌟 Yakında Geliyor
 
-STOFOX'u mümkün kılan teknolojiler:
-
-- ☁️ Cloudflare R2
-- ☕ OpenJDK (Temurin)
-- 🎨 FlatLaf
-- 📊 Mixpanel
-- 🔧 AWS SDK
-- 🦊 Ve siz, topluluğumuz!
+- [ ] 🌙 Karanlık tema
+- [ ] 🔗 Paylaşım linkleri oluşturma
+- [ ] 📊 Depolama istatistikleri ve grafikler
+- [ ] 🗂️ Toplu dosya işlemleri
+- [ ] 📱 Mobil uygulama
 
 ---
 
-**Sorularınız mı var? Geri bildirim mi?**
+## 📄 Lisans
 
-📧 Email: hello@stofox.dev  
-🐦 Twitter: @stofoxapp  
-💬 Discord: [STOFOX Community]
-
-**Happy Storing! 🦊**
+stoFOX açık kaynak kodlu ve ücretsizdir. İster kişisel, ister ticari kullanın - tamamen ücretsiz!
 
 ---
 
-*Not: STOFOX, Cloudflare'in resmi bir ürünü değildir. Cloudflare R2 ile uyumlu, bağımsız bir açık kaynak projedir.*
+## 💖 Teşekkürler
+
+stoFOX'u kullandığınız için teşekkürler! Eğer beğendiyseniz:
+- ⭐ GitHub'da yıldız verin
+- 🐦 Arkadaşlarınıza tavsiye edin
+- 💬 Geri bildirim gönderin
+
+**by [DevFox](https://devfox.net)** 🦊
+
+---
+
+<div align="center">
+  
+### 📥 [Hemen İndirin ve Kullanmaya Başlayın!](../../releases/latest)
+
+**Bulut depolamanız artık cebinizde!** 🚀
+
+</div>
