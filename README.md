@@ -92,19 +92,19 @@ Amazon S3 and Cloudflare R2 offer **very cheap** alternatives for storing your f
 ## 💾 Download and Installation
 
 ### Windows Users
-1. [Download Latest Version](../../releases/latest) - Download `stoFOX-Setup.msi` file
+1. [Download Latest Version](https://stofox.devfox.net/) - Download `stoFOX-Setup.msi` file
 2. Double-click the downloaded file
 3. Follow the installation wizard
 4. **That's it!** No need to install Java!
 
 ### macOS Users (Intel and M1/M2/M3/M4)
-1. [Download Latest Version](../../releases/latest) - Download `stoFOX.pkg` file
+1. [Download Latest Version](https://stofox.devfox.net/) - Download `stoFOX.pkg` file
 2. Double-click the downloaded file
 3. Follow the installation wizard
 4. **That's it!** No need to install Java!
 
 ### Linux Users
-1. [Download Latest Version](../../releases/latest) - Download `stoFOX.jar` file
+1. [Download Latest Version](https://stofox.devfox.net/) - Download `stoFOX.jar` file
 2. Make sure Java 17 is installed
 3. In terminal: `java -jar stoFOX.jar`
 
