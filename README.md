@@ -1,3 +1,8 @@
+
+MADE WITH [REPLIT](https://replit.com/refer/devtr)
+
+
+
 # 🦊 stoFOX - Your Cloud Storage, Now in Your Pocket!
 
 **Store your files in the cloud, access them from anywhere!**
